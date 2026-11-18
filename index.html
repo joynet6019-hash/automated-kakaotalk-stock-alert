@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="KIS, 카카오 OAuth, Supabase, GitHub Actions를 연결해 주식 시세 알림을 구축하고 운영하는 재현 가능한 한국어 매뉴얼">
+  <meta name="theme-color" content="#07111d">
+  <meta property="og:title" content="Automated KakaoTalk Delivery of Stock Market Prices">
+  <meta property="og:description" content="주식 시세 카카오톡 자동 알림 구축·운영 매뉴얼">
+  <meta property="og:type" content="website">
+  <title>주식 시세 카카오톡 자동 알림 · 구축 운영 매뉴얼</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="reading-progress" aria-hidden="true"><span id="readingProgress"></span></div>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="문서 맨 위로">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>
+        <strong>Stock Alert</strong>
+        <small>운영 매뉴얼</small>
+      </span>
+    </a>
+    <div class="header-actions">
+      <button class="header-search" id="openSearch" type="button">
+        <span aria-hidden="true">⌕</span> 문서 검색 <kbd>/</kbd>
+      </button>
+      <button class="menu-button" id="menuButton" type="button" aria-label="목차 열기" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-grid"></div>
+      <div class="hero-glow hero-glow-one"></div>
+      <div class="hero-glow hero-glow-two"></div>
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="eyebrow"><span></span> END-TO-END RUNBOOK · WINDOWS</div>
+          <h1 id="heroTitle">주식 시세를<br><em>놓치지 않는</em> 시스템</h1>
+          <p class="hero-lead">한국투자증권 실전 시세부터 카카오톡 나와의 채팅, Supabase 상태 저장, GitHub Actions 자동화까지. 실제로 예약 알림이 오지 않았던 장애와 최종 해결 과정까지 한 문서에 담았습니다.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#section-1">구축 시작하기 <span>→</span></a>
+            <a class="button button-secondary" href="#section-17">예약 장애 해결 보기</a>
+          </div>
+          <div class="tech-row" aria-label="주요 기술">
+            <span>Python 3.12</span><span>KIS Open API</span><span>Kakao OAuth</span><span>Supabase</span><span>GitHub Actions</span>
+          </div>
+        </div>
+
+        <div class="system-card" aria-label="완성 시스템 요약">
+          <div class="system-card-top">
+            <span class="live-dot"></span>
+            <span>PRODUCTION BLUEPRINT</span>
+            <span class="system-time">KST</span>
+          </div>
+          <div class="pipeline">
+            <div class="pipeline-node">
+              <span class="node-index">01</span>
+              <div><strong>Supabase Cron</strong><small>정시 외부 트리거</small></div>
+              <b>09:30</b>
+            </div>
+            <div class="pipeline-line"><i></i></div>
+            <div class="pipeline-node">
+              <span class="node-index">02</span>
+              <div><strong>GitHub Actions</strong><small>거래일·지연·중복 검사</small></div>
+              <b>RUN</b>
+            </div>
+            <div class="pipeline-line"><i></i></div>
+            <div class="pipeline-split">
+              <div class="mini-node"><strong>KIS</strong><small>3종목 실전 시세</small></div>
+              <div class="mini-node"><strong>Supabase</strong><small>토큰·가격·상태</small></div>
+            </div>
+            <div class="pipeline-line"><i></i></div>
+            <div class="pipeline-node pipeline-final">
+              <span class="node-index">03</span>
+              <div><strong>카카오톡</strong><small>나와의 채팅 1건</small></div>
+              <b>SENT</b>
+            </div>
+          </div>
+          <div class="system-footer">
+            <span>중복 발송 차단</span><span>휴장일 차단</span><span>실패 시 이력 보존</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-stats" aria-label="프로젝트 핵심 수치">
+        <div><strong>3</strong><span>기본 종목</span></div>
+        <div><strong>3</strong><span>운영 슬롯</span></div>
+        <div><strong>253</strong><span>통과 테스트</span></div>
+        <div><strong>1</strong><span>통합 메시지</span></div>
+      </div>
+    </section>
+
+    <section class="incident-strip" aria-label="중요 장애 해결 요약">
+      <div class="incident-icon">!</div>
+      <div>
+        <strong>이 문서의 핵심: 수동 발송은 되는데 예약 알림만 오지 않았던 문제</strong>
+        <p>GitHub schedule 지연·누락을 내부 코드만으로 해결할 수 없어, Supabase Cron → Edge Function → workflow_dispatch 독립 경로로 종단 간 복구했습니다.</p>
+      </div>
+      <a href="#section-17">장애 기록 읽기 →</a>
+    </section>
+
+    <div class="docs-shell">
+      <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+      <aside class="sidebar" id="sidebar" aria-label="문서 목차">
+        <div class="sidebar-head">
+          <span>DOCUMENT MAP</span>
+          <button id="closeMenu" type="button" aria-label="목차 닫기">×</button>
+        </div>
+        <nav id="toc" class="toc"><div class="toc-loading">목차를 불러오는 중…</div></nav>
+        <div class="sidebar-note">
+          <span class="shield">✓</span>
+          <div><strong>안전 원칙</strong><small>키·토큰 원문은 코드와 로그에 남기지 않습니다.</small></div>
+        </div>
+      </aside>
+
+      <article class="document">
+        <div class="doc-toolbar" id="docToolbar">
+          <label class="search-box" for="docSearch">
+            <span aria-hidden="true">⌕</span>
+            <input id="docSearch" type="search" placeholder="명령어, 오류 코드, 설정 이름 검색" autocomplete="off">
+            <kbd>ESC</kbd>
+          </label>
+          <div class="search-result" id="searchResult" aria-live="polite">전체 22개 장</div>
+          <button class="print-button" id="printButton" type="button" title="문서 인쇄">인쇄</button>
+        </div>
+
+        <div class="quick-start" aria-label="추천 읽기 경로">
+          <div class="quick-label">추천 경로</div>
+          <a href="#section-3"><span>처음 구축</span><strong>환경 준비 → API → DB → Actions</strong></a>
+          <a href="#section-16"><span>운영 점검</span><strong>상태 진단 → 누락 확인</strong></a>
+          <a href="#section-17" class="quick-alert"><span>알림 미수신</span><strong>원인 분리 → 외부 트리거</strong></a>
+        </div>
+
+        <div id="loadingState" class="loading-state">
+          <span></span><span></span><span></span>
+          <p>운영 매뉴얼을 불러오는 중입니다.</p>
+        </div>
+        <div id="docContent" class="doc-content" hidden></div>
+        <div id="emptyState" class="empty-state" hidden>
+          <strong>검색 결과가 없습니다.</strong>
+          <p>다른 키워드나 환경변수 이름으로 다시 검색해 보세요.</p>
+          <button type="button" id="clearSearch">검색 초기화</button>
+        </div>
+        <div id="errorState" class="error-state" hidden>
+          <strong>문서를 불러오지 못했습니다.</strong>
+          <p>로컬 파일을 직접 열었다면 정적 HTTP 서버로 실행해 주세요.</p>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <strong>Automated KakaoTalk Delivery of Stock Market Prices</strong>
+      <p>비밀값 없이 재현할 수 있도록 구성한 구축·운영 문서입니다.</p>
+    </div>
+    <a href="#top">맨 위로 ↑</a>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" type="button" aria-label="맨 위로">↑</button>
+  <script src="./app.js" defer></script>
+</body>
+</html>
